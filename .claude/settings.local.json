@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "Bash(ls /Users/ad2108008p01/.claude/ 2>/dev/null | head -30 && echo \"---PROJECT---\" && ls -a /Users/ad2108008p01/Desktop/daiso-admin/.claude/ 2>/dev/null)",
+      "Bash(find /Users/ad2108008p01 -maxdepth 4 -name \".mcp.json\" -o -name \"mcp.json\" 2>/dev/null | head -10 && echo \"---SETTINGS FILES---\" && find /Users/ad2108008p01/.claude -maxdepth 2 -name \"settings*.json\" 2>/dev/null && find /Users/ad2108008p01/Desktop/daiso-admin -maxdepth 3 -name \"settings*.json\" -o -name \".mcp.json\" 2>/dev/null)",
+      "Bash(lsof -nP -iTCP:3845 -sTCP:LISTEN)",
+      "Bash(rm /Users/ad2108008p01/Desktop/daiso-admin/.mcp.json && echo \"removed project .mcp.json\")",
+      "Bash(python3 -c ' *)",
+      "mcp__figma-desktop__get_variable_defs",
+      "mcp__figma-desktop__get_metadata",
+      "mcp__figma-desktop__get_screenshot",
+      "Bash(npx --no tsc --noEmit)",
+      "Bash(npx tsc *)",
+      "Bash(timeout 120 npx next build)",
+      "Bash(npx next *)",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(npx @tailwindcss/cli -i app/globals.css --content /tmp/probe-tw.html -o /tmp/probe-output.css)",
+      "Bash(echo \"===PROBE UTILITY CSS===\" && grep -E \"^\\\\s*\\\\.\\(bg|text|p|m|gap|rounded|font|max-w\\)-\\(palette|semantic|body|heading|caption|daiso|display|promo|small|medium|large|page-margin|tab-pc|section-pc|[0-9]+|pc|sans|display|promo\\)\" /tmp/probe-output.css | head -30 && echo \"\" && echo \"===PC PREFIX===\" && grep -E \"^\\\\s*@media|pc:\" /tmp/probe-output.css | head -10)",
+      "mcp__figma-desktop__get_design_context",
+      "Bash(curl -s http://localhost:3845/assets/3b4caebe749ca167d1bc1888bdebbf8790b71431.svg)",
+      "Bash(curl -s http://localhost:3845/assets/622f8c9e92ba03f17f0b31af8aff6d201b474ce4.svg)",
+      "Bash(curl -s http://localhost:3845/assets/a59daea76df267293a1a9553394e0a29468aad19.svg)",
+      "Bash(curl -s -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-product.png http://localhost:3845/assets/212285dd1d4cb3acdfbb494abdba40d85e6e16f7.png)",
+      "Bash(grep -E \"Route|/dds-test|/$\")",
+      "Bash(lsof -nP -iTCP:3000 -sTCP:LISTEN)",
+      "Bash(curl -sI http://localhost:3000/dds-test)",
+      "Bash(curl -s http://localhost:3845/assets/7319bbd0e19c4d1829ba659ce930cbd47f2027a1.svg)",
+      "Bash(curl -s http://localhost:3845/assets/b65660a9dc67f1aaf46cb47a25265bdffdfcd227.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/e0467db3fa38488888dda8bec7fce68d1af056fc.svg -o /tmp/ico_review.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/6aa7bd2bcd61b2d10c682f9df99acaaa29f94556.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-shoulder-bag.png)",
+      "Bash(curl -sS http://localhost:3845/assets/1e0f80828d97bd0c008c17b942c22b8766187944.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/bbda07b39ec5bf28e0cc5a83168ef45c22c07ad0.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/daa9473f263438e7ef11f4e999b3b67268c449da.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/1dc2604e4fc5fb7085b152907ab0214b79ade0cc.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-skinpack.png)",
+      "Bash(curl -sS http://localhost:3845/assets/212285dd1d4cb3acdfbb494abdba40d85e6e16f7.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-cooler.png)",
+      "Bash(curl -sS http://localhost:3845/assets/88c21e818dc9412cba655bde98738538063b1a64.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-mask-sheet.png)",
+      "Bash(curl -sS http://localhost:3845/assets/ba7b7abfb73a56ea867c21cc0877fe45c1b7dd5c.svg)",
+      "Bash(curl -sS http://localhost:3845/assets/6fb907aef75e22db30b72f11ffb0d30027d9c760.svg)"
+    ]
+  }
+}
