@@ -3,12 +3,12 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { TopNavigation } from "@/app/components/TopNavigation";
-import { TabGroup } from "@/app/components/Tab";
-import { ChipsFilter } from "@/app/components/Chip";
-import { OrderSection } from "@/app/components/Module";
-import { ActionArea } from "@/app/components/ActionArea";
-import { Icon } from "@/app/components/Icon";
+import { TopNavigation } from "@/app/components/layout/TopNavigation";
+import { TabGroup } from "@/app/components/ui/Tab";
+import { ChipsFilter } from "@/app/components/ui/Chip";
+import { OrderSection } from "@/app/components/module";
+import { ActionArea } from "@/app/components/ui/ActionArea";
+import { Icon } from "@/app/components/ui/Icon";
 
 /**
  * /home — 리뷰 작성 가능 목록 랜딩 페이지
@@ -134,9 +134,26 @@ const DEADLINE_TODAY: React.ReactNode = (
 const DEADLINE_D24 = "2025-07-04 (D-24)";
 
 /**
- * 모드별 리뷰 리스트.
+ * 초기 노출 카드 수 (Figma UX_07_086 = 4개).
+ * 이 수까지만 먼저 렌더, 이후는 "더보기" 클릭 시 PAGE_SIZE 만큼 append.
+ */
+const INITIAL_VISIBLE_COUNT = 4;
+
+/**
+ * "더보기" 1회 클릭당 추가 로드(append) 개수.
+ * 실제 서비스에서는 API page size 와 일치시킴.
+ */
+const PAGE_SIZE = 4;
+
+/** mock 네트워크 지연 (ms) — 로딩 상태/중복클릭 방지 동작 시연용. */
+const MOCK_LOAD_DELAY_MS = 400;
+
+/**
+ * 모드별 리뷰 리스트 (전체 — initial + additional 합본).
  * - store : Figma UX_07_086_매장   — store icon placeholder (kind=store-only)
  * - daiso : Figma UX_07_086_다이소몰 — image + 택배 badge + 입고일 (kind=all-case)
+ *
+ * 앞 INITIAL_VISIBLE_COUNT 개 = 초기 노출, 나머지 = "더보기" expand 대상.
  */
 const MOCK_REVIEWS: Record<ReviewMode, ReviewItem[]> = {
   store: [
@@ -180,6 +197,31 @@ const MOCK_REVIEWS: Record<ReviewMode, ReviewItem[]> = {
       deadline: DEADLINE_D24,
       state: "in-progress",
       pointsLabel: "24P",
+      kind: "store-only",
+    },
+    // ─── 이하 "더보기" expand 대상 (additional) ───
+    {
+      id: "store-r5",
+      productName: "참바른 약산성 클렌징 폼 150ml",
+      rating: 0,
+      deadline: DEADLINE_D24,
+      state: "default",
+      kind: "store-only",
+    },
+    {
+      id: "store-r6",
+      productName: "데일리 수분 진정 크림 50ml",
+      rating: 0,
+      deadline: DEADLINE_D24,
+      state: "default",
+      kind: "store-only",
+    },
+    {
+      id: "store-r7",
+      productName: "마일드 톤업 선스틱 SPF50+",
+      rating: 3,
+      deadline: DEADLINE_D24,
+      state: "default",
       kind: "store-only",
     },
   ],
@@ -254,6 +296,64 @@ const MOCK_REVIEWS: Record<ReviewMode, ReviewItem[]> = {
       image: (
         <Image
           src="/dummy-mask-sheet.png"
+          alt=""
+          width={52}
+          height={52}
+          className="size-full object-cover"
+        />
+      ),
+    },
+    // ─── 이하 "더보기" expand 대상 (additional) ───
+    {
+      id: "daiso-r5",
+      productName: "올데이 모이스처 핸드크림 30ml",
+      rating: 0,
+      deadline: DEADLINE_D24,
+      state: "default",
+      kind: "all-case",
+      delivery: "normal",
+      date: "2025-07-18",
+      image: (
+        <Image
+          src="/dummy-product.png"
+          alt=""
+          width={52}
+          height={52}
+          className="size-full object-cover"
+        />
+      ),
+    },
+    {
+      id: "daiso-r6",
+      productName: "쿨링 수분 미스트 100ml",
+      rating: 0,
+      deadline: DEADLINE_D24,
+      state: "default",
+      kind: "all-case",
+      delivery: "normal",
+      date: "2025-07-18",
+      image: (
+        <Image
+          src="/dummy-cooler.png"
+          alt=""
+          width={52}
+          height={52}
+          className="size-full object-cover"
+        />
+      ),
+    },
+    {
+      id: "daiso-r7",
+      productName: "데일리 수분팩 50매",
+      rating: 4,
+      deadline: DEADLINE_D24,
+      state: "default",
+      kind: "all-case",
+      delivery: "normal",
+      date: "2025-07-18",
+      image: (
+        <Image
+          src="/dummy-skinpack.png"
           alt=""
           width={52}
           height={52}
@@ -433,7 +533,67 @@ export default function HomePage() {
    * - chip 클릭 시 setMode 로 전환 → MOCK_REVIEWS[mode] 렌더링
    */
   const [mode, setMode] = React.useState<ReviewMode>("store");
+
+  /**
+   * 현재까지 노출(append)된 카드 수. 초기 INITIAL_VISIBLE_COUNT,
+   * "더보기" 1회당 PAGE_SIZE 만큼 누적 증가. (toggle 아님 — 단방향 append)
+   */
+  const [visibleCount, setVisibleCount] = React.useState(
+    INITIAL_VISIBLE_COUNT,
+  );
+
+  /**
+   * enter 애니메이션이 완료(시작)된 카드 수.
+   * - visibleCount 와 분리된 별도 상태 — append(데이터 렌더) 와
+   *   enter 애니메이션 트리거를 독립적으로 제어하기 위함.
+   * - i < enteredCount 인 카드만 "보임(opacity-100, translate-0)" 상태.
+   * - 신규 append 카드는 먼저 hidden 으로 렌더된 뒤, 다음 paint(rAF)에서
+   *   enteredCount 가 올라가며 transition 발생.
+   * - 초기 카드(0..INITIAL_VISIBLE_COUNT)는 처음부터 entered (애니메이션 X).
+   */
+  const [enteredCount, setEnteredCount] = React.useState(
+    INITIAL_VISIBLE_COUNT,
+  );
+
+  /**
+   * 중복 클릭 방지용 **silent lock** (useRef — 리렌더 미유발).
+   * - state 가 아니므로 버튼은 시각적으로 항상 동일 (loading/disabled UI 없음).
+   * - fetch in-flight 동안 true → 재진입(중복 fetch) 차단, UI 변화 0.
+   * - production 의 "요청 중복 방지 플래그" 와 동일 역할.
+   */
+  const loadingLockRef = React.useRef(false);
+
+  /**
+   * 진행 중 mock 로드 타이머 + enter 애니메이션 rAF.
+   * 모드 전환 / unmount 시 둘 다 취소하여 stale 상태 업데이트 방지
+   * (production 의 AbortController + cancelAnimationFrame 대응).
+   */
+  const loadTimerRef = React.useRef<number | null>(null);
+  const rafRef = React.useRef<number | null>(null);
+
+  const clearPendingLoad = React.useCallback(() => {
+    if (loadTimerRef.current !== null) {
+      window.clearTimeout(loadTimerRef.current);
+      loadTimerRef.current = null;
+    }
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
+
+  // unmount 시 진행 중 타이머 정리.
+  React.useEffect(() => clearPendingLoad, [clearPendingLoad]);
+
   const currentReviews = MOCK_REVIEWS[mode];
+  const visibleReviews = currentReviews.slice(0, visibleCount);
+
+  /**
+   * 더보기 버튼 노출 조건 — 아직 노출 안 한 잔여 데이터가 있을 때만.
+   * 잔여 없으면 버튼 자체를 미렌더 (클릭 가능 상태 원천 차단).
+   * 실제 서비스에서는 `hasNextPage` API flag 로 대체.
+   */
+  const hasMore = visibleCount < currentReviews.length;
 
   /**
    * 별점 영역 클릭 → 리뷰 작성 페이지 (/review/write) 로 이동.
@@ -449,6 +609,7 @@ export default function HomePage() {
    * - single mode 라 indices.length 는 0 또는 1.
    * - 빈 배열 (현재 선택된 chip 을 다시 클릭한 toggle-off) 은 무시 →
    *   항상 하나의 모드가 선택된 상태 유지.
+   * - 모드 변경 시 expand 초기화 (새 리스트는 더보기 collapsed 상태로).
    */
   const handleChipChange = (indices: number[]) => {
     if (indices.length === 0) return;
@@ -456,8 +617,87 @@ export default function HomePage() {
     const next: ReviewMode | undefined = (
       Object.entries(CHIP_INDEX_BY_MODE) as [ReviewMode, number][]
     ).find(([, i]) => i === idx)?.[0];
-    if (next) setMode(next);
+    if (next) {
+      // 모드 변경 → 진행 중 로드/애니메이션 취소 + pagination 초기화.
+      // enteredCount 도 초기값으로 → 새 리스트 첫 페이지는 애니메이션 없이 즉시 표시.
+      // lock 해제 — 취소된 타이머의 unlock 콜백이 안 돌므로 수동 reset.
+      clearPendingLoad();
+      loadingLockRef.current = false;
+      setMode(next);
+      setVisibleCount(INITIAL_VISIBLE_COUNT);
+      setEnteredCount(INITIAL_VISIBLE_COUNT);
+    }
   };
+
+  /**
+   * "더보기" — 다음 페이지 fetch → append → 신규 카드 enter 애니메이션.
+   *
+   * 버튼 상태 UI 절대 변경 없음:
+   *  - 중복 클릭 방지는 `loadingLockRef` (useRef) 로만 처리 → 리렌더/버튼
+   *    disabled/spinner 없음. 사용자에게 보이는 건 "리스트 확장 결과"뿐.
+   *
+   * 흐름:
+   *  1) lock 획득 (silent — UI 변화 0). 이미 lock 이면 무시(중복 차단).
+   *  2) fetch (mock 지연 — 실제 API latency 대응. 버튼은 그대로 노출 유지)
+   *  3) setVisibleCount → 신규 카드 append (hidden 으로 렌더) + lock 해제
+   *  4) double rAF → 신규 카드 paint 후 enteredCount 상승 → CSS transition
+   *     으로 자연스럽게 "아래 상품 추가" 결과만 노출
+   *
+   * 기존 카드는 안정 key(review.id) 로 재마운트 없음 → 스크롤 위치 보존.
+   * production: setTimeout → await api.fetch (lock 으로 in-flight 중복 차단),
+   *             AbortController + cancelAnimationFrame 동일 패턴.
+   */
+  const handleLoadMore = () => {
+    // 1) silent lock — state 아님, 버튼 UI 불변. 재진입 차단.
+    if (loadingLockRef.current || !hasMore) return;
+    loadingLockRef.current = true;
+
+    loadTimerRef.current = window.setTimeout(() => {
+      // 2)→3) fetch 완료 → append + lock 해제 (UI 상에 loading 단계 없음)
+      const nextCount = Math.min(
+        visibleCount + PAGE_SIZE,
+        currentReviews.length,
+      );
+      setVisibleCount(nextCount);
+      loadingLockRef.current = false;
+      loadTimerRef.current = null;
+
+      // 4) 신규 카드 hidden paint 후 다음 frame 에 enter 트리거.
+      //    double rAF — React commit + 브라우저 초기 paint 보장 후 transition.
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = window.requestAnimationFrame(() => {
+          setEnteredCount(nextCount);
+          rafRef.current = null;
+        });
+      });
+    }, MOCK_LOAD_DELAY_MS);
+  };
+
+  /** OrderSection 렌더 helper — initial / additional 리스트 공통 사용. */
+  const renderReviewCard = (review: ReviewItem) => (
+    <OrderSection
+      state={review.state}
+      rating={review.rating}
+      deadline={review.deadline}
+      pointsLabel={review.pointsLabel}
+      onRatingClick={() => handleRatingClick(review.id)}
+      review={{
+        kind: review.kind,
+        productName: review.productName,
+        image: review.image,
+        delivery: review.delivery,
+        date: review.date,
+        // all-case + delivery/date 없음 = 단일 라인 카드.
+        // Module.tsx default(items-start) 를 items-center 로 override.
+        className:
+          review.kind === "all-case" &&
+          !review.delivery &&
+          !review.date
+            ? "items-center!"
+            : undefined,
+      }}
+    />
+  );
 
   return (
     <main className="flex min-h-screen w-full flex-col bg-palette-gray-200">
@@ -502,43 +742,46 @@ export default function HomePage() {
             onChange={handleChipChange}
           />
 
+          {/* 카드 리스트 — visibleCount 까지 단방향 누적(append) 렌더.
+              key=review.id 안정 → 기존 카드 재마운트 없음 → 스크롤 보존.
+
+              per-item enter 애니메이션:
+              - i < enteredCount  → 보임 (opacity-100 / translate-y-0)
+              - i >= enteredCount → 신규 append 카드, 초기 hidden
+                (opacity-0 / translate-y-8) → 다음 paint 에서 enteredCount
+                상승 시 transition 으로 자연 enter.
+              transform/opacity 는 layout 에 영향 없음 (gap-12 유지, shift 0).
+              초기 카드는 enteredCount 초기값으로 처음부터 보임 (애니메이션 X). */}
           <ul className="flex flex-col gap-12">
-            {currentReviews.map((review) => (
-              <li key={review.id}>
-                <OrderSection
-                  state={review.state}
-                  rating={review.rating}
-                  deadline={review.deadline}
-                  pointsLabel={review.pointsLabel}
-                  onRatingClick={() => handleRatingClick(review.id)}
-                  review={{
-                    kind: review.kind,
-                    productName: review.productName,
-                    image: review.image,
-                    delivery: review.delivery,
-                    date: review.date,
-                    // all-case + delivery/date 없음 = 단일 라인 카드.
-                    // Module.tsx default(items-start) 를 items-center 로 override.
-                    // delivery/date 있는 다줄 카드는 default(items-start) 사용.
-                    className:
-                      review.kind === "all-case" &&
-                      !review.delivery &&
-                      !review.date
-                        ? "items-center!"
-                        : undefined,
-                  }}
-                />
+            {visibleReviews.map((review, i) => (
+              <li
+                key={review.id}
+                className={[
+                  "transition duration-300 ease-out",
+                  i < enteredCount
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8",
+                ].join(" ")}
+              >
+                {renderReviewCard(review)}
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <ActionArea
-        label="더보기"
-        buttonVariant="tertiary"
-        trailingIcon="chevron-down"
-      />
+      {/* 더보기 — 잔여 데이터 있을 때만 렌더 (없으면 버튼 미존재 → 클릭 불가).
+          버튼은 항상 동일 시각 상태 (loading/disabled/spinner UI 없음).
+          중복 클릭은 handleLoadMore 내부 loadingLockRef 로만 silent 차단.
+          잔여 소진 시 hasMore=false → 버튼 즉시 hidden (상태 노출 없이 결과만). */}
+      {hasMore && (
+        <ActionArea
+          label="더보기"
+          buttonVariant="tertiary"
+          trailingIcon="chevron-down"
+          onClick={handleLoadMore}
+        />
+      )}
     </main>
   );
 }

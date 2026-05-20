@@ -1,25 +1,31 @@
 "use client";
 
+import * as React from "react";
+
 import {
   Accordion,
   AccordionBulletList,
-} from "@/app/components/Accordion";
-import { ActionArea } from "@/app/components/ActionArea";
-import { Button } from "@/app/components/Button";
-import { ButtonChip } from "@/app/components/ButtonChip";
-import { Chip, ChipsFilter } from "@/app/components/Chip";
-import { Divider } from "@/app/components/Divider";
-import { Dropdown } from "@/app/components/Dropdown";
-import { Icon, type IconName } from "@/app/components/Icon";
-import {
-  FlagReview,
-  OrderSection,
-  ReviewCard,
-} from "@/app/components/Module";
-import { Popover } from "@/app/components/Popover";
-import { Tab, TabGroup } from "@/app/components/Tab";
-import { TextInput } from "@/app/components/TextInput";
-import { TopNavigation } from "@/app/components/TopNavigation";
+  ActionArea,
+  Button,
+  ButtonChip,
+  Chip,
+  ChipsFilter,
+  Divider,
+  Dropdown,
+  Icon,
+  Popover,
+  Tab,
+  TabGroup,
+  TextInput,
+} from "@/app/components/ui";
+
+import type { IconName } from "@/app/components/ui";
+
+import { FlagReview } from "@/app/components/module/FlagReview";
+import { OrderSection } from "@/app/components/module/OrderSection";
+import { ReviewCard } from "@/app/components/module/ReviewCard";
+
+import { TopNavigation } from "@/app/components/layout/TopNavigation";
 
 /**
  * DDS Test Page

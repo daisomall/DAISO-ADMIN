@@ -102,7 +102,9 @@ export function TextInput({
   ].join(" ");
 
   const textareaClass = [
-    "w-full resize-none border-0 bg-transparent px-4 outline-none",
+    // flex-1 + min-h-0 — 고정 height container 안에서 남는 공간을 채우고
+    // rows 기반 intrinsic 높이보다 작게 shrink 허용 (box 120px 정확 고정).
+    "w-full flex-1 min-h-0 resize-none border-0 bg-transparent px-4 outline-none",
     "font-sans text-body-5 font-regular",
     disabled
       ? "text-semantic-text-disable placeholder:text-semantic-text-disable cursor-not-allowed"
@@ -111,7 +113,17 @@ export function TextInput({
 
   return (
     <div className={["w-full", className].filter(Boolean).join(" ")}>
-      <div className={containerClass}>
+      {/* Text Field box — Figma 고정 height 120px.
+          DDS scale 외 값이라 토큰 합성 (scale-72 + scale-48 = 120),
+          Profile 54 / ReviewCard 52 와 동일한 합성 규칙. p-12 + gap-8 +
+          counter(16) 내부 분배는 textarea flex-1 이 흡수. */}
+      <div
+        className={containerClass}
+        style={{
+          height:
+            "calc(var(--spacing-scale-72) + var(--spacing-scale-48))",
+        }}
+      >
         <textarea
           id={id}
           name={name}

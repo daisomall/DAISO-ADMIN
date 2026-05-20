@@ -37,7 +37,19 @@
       "Bash(curl -sS http://localhost:3845/assets/212285dd1d4cb3acdfbb494abdba40d85e6e16f7.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-cooler.png)",
       "Bash(curl -sS http://localhost:3845/assets/88c21e818dc9412cba655bde98738538063b1a64.png -o /Users/ad2108008p01/Desktop/daiso-admin/public/dummy-mask-sheet.png)",
       "Bash(curl -sS http://localhost:3845/assets/ba7b7abfb73a56ea867c21cc0877fe45c1b7dd5c.svg)",
-      "Bash(curl -sS http://localhost:3845/assets/6fb907aef75e22db30b72f11ffb0d30027d9c760.svg)"
+      "Bash(curl -sS http://localhost:3845/assets/6fb907aef75e22db30b72f11ffb0d30027d9c760.svg)",
+      "Bash(npm install *)",
+      "Bash(brew --version)",
+      "Bash(npm config *)",
+      "Bash(sudo -n npm install -g ngrok)",
+      "Bash(echo \"EXIT_CODE=$?\")",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs -r kill -9)",
+      "Bash(lsof -ti:3001)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}  \\(%{time_total}s\\)\\\\n\" http://localhost:3845/)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}  \\(%{time_total}s\\)\\\\n\" -X POST http://127.0.0.1:3845/mcp -H \"Content-Type: application/json\" -H \"Accept: application/json, text/event-stream\" -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"ping\"}')",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}  \\(%{time_total}s\\)\\\\n\" --max-time 8 https://mcp.figma.com/mcp)",
+      "Bash(npm run *)"
     ]
   }
 }

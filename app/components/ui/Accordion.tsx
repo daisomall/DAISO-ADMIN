@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Icon } from "@/app/components/Icon";
+import { Icon } from "@/app/components/ui/Icon";
 
 /**
  * Accordion — DDS expandable panel

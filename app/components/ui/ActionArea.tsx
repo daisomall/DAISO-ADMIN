@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/app/components/Button";
-import type { IconName } from "@/app/components/Icon";
+import { Button } from "@/app/components/ui/Button/Button";
+import type { IconName } from "@/app/components/ui/Icon";
 
 /**
  * ActionArea — DDS layout component
