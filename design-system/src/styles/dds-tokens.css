@@ -1,0 +1,227 @@
+/* ============================================================
+   dds-tokens.css — DDS Foundation Tokens (--dds-* prefix)
+
+   DDS runtime token stylesheet. Values are defined from DESIGN.md
+   and Figma variables. Do not edit without updating DESIGN.md.
+
+   - 토큰 정식 값·매핑 기준: DESIGN.md (Foundation · Token Mapping).
+   - 폰트 패밀리는 host 앱이 @font-face/웹폰트를 제공해야 한다.
+     여기서는 family 이름 + fallback 만 정의한다.
+   ============================================================ */
+
+:root {
+  /* ─── Color · Palette · Brand ─────────────────────────────── */
+  --dds-color-palette-brand-red:   #d70011;
+  --dds-color-palette-brand-black: #111111;
+  --dds-color-palette-brand-white: #ffffff;
+
+  /* ─── Color · Palette · Gray ──────────────────────────────── */
+  --dds-color-palette-gray-200: #f7f8f9;
+  --dds-color-palette-gray-300: #e9ebee;
+  --dds-color-palette-gray-400: #c5c8ce;
+  --dds-color-palette-gray-500: #646f7c;
+  --dds-color-palette-gray-600: #374553;
+  --dds-color-palette-gray-700: #28323c;
+  --dds-color-palette-gray-800: #161d24;
+
+  /* ─── Color · Service ─────────────────────────────────────── */
+  --dds-color-service-beauty-default:  #81d6d0;
+  --dds-color-service-beauty-accent1:  #30cc8d;
+  --dds-color-service-fashion-default: #00946e;
+
+  /* ─── Color · Text (semantic) ─────────────────────────────── */
+  --dds-color-text-primary:     var(--dds-color-palette-gray-800);
+  --dds-color-text-secondary:   var(--dds-color-palette-gray-500);
+  --dds-color-text-disable:     var(--dds-color-palette-gray-400);
+  --dds-color-text-placeholder: var(--dds-color-palette-gray-400);
+  --dds-color-text-white:       var(--dds-color-palette-brand-white);
+
+  /* ─── Color · Background (semantic) ───────────────────────── */
+  --dds-color-bg-base-white: var(--dds-color-palette-brand-white);
+  --dds-color-bg-base-black: var(--dds-color-palette-gray-800);
+  --dds-color-bg-elevated:   var(--dds-color-palette-brand-white);
+  --dds-color-bg-grouped:    var(--dds-color-palette-gray-200);
+  --dds-color-bg-disabled:   var(--dds-color-palette-gray-300);
+
+  /* ─── Color · Stroke (semantic) ───────────────────────────── */
+  --dds-color-stroke-basic1: var(--dds-color-palette-gray-200);
+  --dds-color-stroke-basic2: var(--dds-color-palette-gray-300);
+
+  /* ─── Color · Dim · Black ─────────────────────────────────── */
+  --dds-color-dim-black-thick:  #111111e5; /* 90% */
+  --dds-color-dim-black-basic:  #11111199; /* 60% */
+  --dds-color-dim-black-thin:   #1111114d; /* 30% */
+  --dds-color-dim-black-subtle: #1111111a; /* 10% */
+
+  /* ─── Color · Dim · White ─────────────────────────────────── */
+  --dds-color-dim-white-thick: #ffffff99; /* 60% */
+  --dds-color-dim-white-basic: #ffffff33; /* 20% */
+  --dds-color-dim-white-thin:  #ffffff26; /* 15% */
+
+  /* ─── Color · Shadow (색만) ───────────────────────────────── */
+  --dds-color-shadow-basic: #11111126; /* 15% */
+  --dds-color-shadow-thin:  #1111111a; /* 10% */
+
+  /* ─── Gradient ────────────────────────────────────────────── */
+  /* stops */
+  --dds-gradient-highlight-start: var(--dds-color-palette-brand-red);
+  --dds-gradient-highlight-end:   var(--dds-color-palette-gray-800);
+  --dds-gradient-ai-start:        #59acff;
+  --dds-gradient-ai-end:          #2000d7;
+  /* composed (방향은 기본값 to right — Figma 각도 확정 시 갱신) */
+  --dds-gradient-highlight: linear-gradient(to right, var(--dds-gradient-highlight-start), var(--dds-gradient-highlight-end));
+  --dds-gradient-ai:        linear-gradient(to right, var(--dds-gradient-ai-start), var(--dds-gradient-ai-end));
+
+  /* ─── Font Families ───────────────────────────────────────── */
+  /* host 앱이 실제 웹폰트(@font-face)를 제공해야 함. 여기선 이름+fallback. */
+  --dds-font-family-pretendard: 'Pretendard', sans-serif;
+  --dds-font-family-suite:      'SUITE', sans-serif;
+  --dds-font-family-daiso:      'Daiso', sans-serif;
+
+  /* ─── Font Weights ────────────────────────────────────────── */
+  --dds-font-weight-regular:   400;
+  --dds-font-weight-medium:    500;
+  --dds-font-weight-bold:      700;
+  --dds-font-weight-extrabold: 800;
+
+  /* ─── Typography · Display (SUITE) ────────────────────────── */
+  --dds-font-display-1-size:   54px;
+  --dds-font-display-1-line:   66px;
+  --dds-font-display-1-letter: -2px;
+  --dds-font-display-1-family: var(--dds-font-family-suite);
+
+  --dds-font-display-2-size:   42px;
+  --dds-font-display-2-line:   54px;
+  --dds-font-display-2-letter: -2px;
+  --dds-font-display-2-family: var(--dds-font-family-suite);
+
+  /* ─── Typography · Heading (SUITE) ────────────────────────── */
+  --dds-font-heading-1-size:   42px;
+  --dds-font-heading-1-line:   52px;
+  --dds-font-heading-1-letter: -2px;
+  --dds-font-heading-1-family: var(--dds-font-family-suite);
+
+  --dds-font-heading-2-size:   24px;
+  --dds-font-heading-2-line:   32px;
+  --dds-font-heading-2-letter: -2px;
+  --dds-font-heading-2-family: var(--dds-font-family-suite);
+
+  --dds-font-heading-3-size:   20px;
+  --dds-font-heading-3-line:   28px;
+  --dds-font-heading-3-letter: -1px;
+  --dds-font-heading-3-family: var(--dds-font-family-suite);
+
+  --dds-font-heading-4-size:   18px;
+  --dds-font-heading-4-line:   24px;
+  --dds-font-heading-4-letter: -1px;
+  --dds-font-heading-4-family: var(--dds-font-family-suite);
+
+  --dds-font-heading-5-size:   16px;
+  --dds-font-heading-5-line:   22px;
+  --dds-font-heading-5-letter: -1px;
+  --dds-font-heading-5-family: var(--dds-font-family-suite);
+
+  --dds-font-heading-6-size:   14px;
+  --dds-font-heading-6-line:   20px;
+  --dds-font-heading-6-letter: -1px;
+  --dds-font-heading-6-family: var(--dds-font-family-suite);
+
+  /* ─── Typography · Body (Pretendard) ──────────────────────── */
+  --dds-font-body-1-size:   24px;
+  --dds-font-body-1-line:   30px;
+  --dds-font-body-1-letter: 0;
+  --dds-font-body-1-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-2-size:   20px;
+  --dds-font-body-2-line:   26px;
+  --dds-font-body-2-letter: 0;
+  --dds-font-body-2-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-3-size:   18px;
+  --dds-font-body-3-line:   24px;
+  --dds-font-body-3-letter: 0;
+  --dds-font-body-3-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-4-size:   16px;
+  --dds-font-body-4-line:   22px;
+  --dds-font-body-4-letter: 0;
+  --dds-font-body-4-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-5-size:   15px;
+  --dds-font-body-5-line:   21px;
+  --dds-font-body-5-letter: 0;
+  --dds-font-body-5-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-6-size:   14px;
+  --dds-font-body-6-line:   19px;
+  --dds-font-body-6-letter: 0;
+  --dds-font-body-6-family: var(--dds-font-family-pretendard);
+
+  --dds-font-body-7-size:   13px;
+  --dds-font-body-7-line:   18px;
+  --dds-font-body-7-letter: 0;
+  --dds-font-body-7-family: var(--dds-font-family-pretendard);
+
+  /* ─── Typography · Caption (Pretendard) ───────────────────── */
+  --dds-font-caption-1-size:   12px;
+  --dds-font-caption-1-line:   16px;
+  --dds-font-caption-1-letter: 0;
+  --dds-font-caption-1-family: var(--dds-font-family-pretendard);
+
+  --dds-font-caption-2-size:   11px;
+  --dds-font-caption-2-line:   15px;
+  --dds-font-caption-2-letter: 0;
+  --dds-font-caption-2-family: var(--dds-font-family-pretendard);
+
+  --dds-font-caption-3-size:   10px;
+  --dds-font-caption-3-line:   14px;
+  --dds-font-caption-3-letter: 0;
+  --dds-font-caption-3-family: var(--dds-font-family-pretendard);
+
+  /* ─── Spacing (primitive scale) ───────────────────────────── */
+  --dds-spacing-2:  2px;
+  --dds-spacing-4:  4px;
+  --dds-spacing-6:  6px;
+  --dds-spacing-8:  8px;
+  --dds-spacing-10: 10px;
+  --dds-spacing-12: 12px;
+  --dds-spacing-16: 16px;
+  --dds-spacing-20: 20px;
+  --dds-spacing-24: 24px;
+  --dds-spacing-32: 32px;
+  --dds-spacing-48: 48px;
+  --dds-spacing-64: 64px;
+  --dds-spacing-72: 72px;
+
+  /* ─── Spacing (semantic) ──────────────────────────────────── */
+  --dds-spacing-page-margin:      var(--dds-spacing-20);
+  --dds-spacing-scroll-end:       var(--dds-spacing-48);
+  --dds-spacing-title-bottom-mo:  var(--dds-spacing-16);
+  --dds-spacing-title-bottom-pc:  var(--dds-spacing-32);
+  --dds-spacing-section-mo:       var(--dds-spacing-48);
+  --dds-spacing-section-pc:       var(--dds-spacing-72);
+  --dds-spacing-tab-mo:           var(--dds-spacing-12);
+  --dds-spacing-tab-pc:           var(--dds-spacing-24);
+  --dds-spacing-module-set-mo:    var(--dds-spacing-16);
+  --dds-spacing-module-set-pc:    var(--dds-spacing-48);
+
+  /* ─── Radius ──────────────────────────────────────────────── */
+  --dds-radius-small:  2px;
+  --dds-radius-medium: 4px;
+  --dds-radius-large:  8px;
+  --dds-radius-pill:   1000px;
+
+  /* ─── Layout ──────────────────────────────────────────────── */
+  --dds-layout-breakpoint-pc:          1024px;
+  --dds-layout-container-max-width-pc: 1280px;
+
+  /* ─── Effect · Shadow ─────────────────────────────────────── */
+  --dds-shadow-level-1: 0 0 12px 0 var(--dds-color-shadow-thin);
+  --dds-shadow-level-2:
+    0 0 4px 0 var(--dds-color-shadow-basic),
+    0 2px 12px 0 var(--dds-color-shadow-basic);
+
+  /* ─── Effect · Blur ───────────────────────────────────────── */
+  --dds-blur-default: 8px;
+  --dds-blur-thick:   25px;
+}

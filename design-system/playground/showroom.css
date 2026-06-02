@@ -1,0 +1,147 @@
+/* DDS Showroom chrome — 쇼룸 레이아웃 전용(컴포넌트 내부 스타일과 무관, sr- prefix).
+   harness dev 도구이므로 일부 리터럴 값 사용(컴포넌트 토큰 규칙과 별개). */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #f7f8f9;
+  font-family: 'Pretendard', system-ui, sans-serif;
+  color: #28323c;
+}
+
+.sr-toc {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e9ebee;
+}
+.sr-toc__brand {
+  font-weight: 700;
+  color: #d70011;
+  margin-right: 8px;
+}
+.sr-toc a {
+  font-size: 13px;
+  text-decoration: none;
+  color: #28323c;
+  padding: 4px 10px;
+  border-radius: 1000px;
+  background: #f1f3f5;
+}
+.sr-toc a:hover { background: #e9ebee; }
+
+.sr-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 96px;
+}
+
+.sr-section { margin-top: 40px; scroll-margin-top: 64px; }
+.sr-section:first-child { margin-top: 16px; }
+.sr-section__title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.sr-section__desc {
+  font-size: 13px;
+  color: #646f7c;
+  margin: 0 0 16px;
+}
+
+.sr-sub {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374553;
+  margin: 24px 0 8px;
+}
+
+/* 데모 카드: 컴포넌트 경계 식별용 흰 카드 + variant 캡션 */
+.sr-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sr-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e9ebee;
+  border-radius: 8px;
+}
+.sr-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #646f7c;
+  letter-spacing: 0.02em;
+}
+.sr-card__demo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.sr-card--block { width: 100%; }
+.sr-card--grouped { background: #f7f8f9; }
+
+/* Foundation: color swatches */
+.sr-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.sr-swatch {
+  border: 1px solid #e9ebee;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.sr-swatch__chip {
+  height: 56px;
+  border-bottom: 1px solid #e9ebee;
+}
+.sr-swatch__meta { padding: 8px; }
+.sr-swatch__name { font-size: 11px; font-weight: 600; }
+.sr-swatch__val { font-size: 10px; color: #646f7c; }
+
+/* Foundation: spacing bars */
+.sr-spacing__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+.sr-spacing__label { width: 80px; font-size: 12px; color: #646f7c; }
+.sr-spacing__bar { height: 12px; background: #d70011; border-radius: 2px; }
+
+/* Foundation: radius samples */
+.sr-radius {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.sr-radius__box {
+  width: 72px;
+  height: 72px;
+  background: #ffffff;
+  border: 1px solid #c5c8ce;
+}
+.sr-radius__label { font-size: 11px; color: #646f7c; margin-top: 4px; }
+
+/* phone-frame for layout/module page-level components */
+.sr-phone {
+  width: 360px;
+  border: 1px solid #e9ebee;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}

@@ -1,0 +1,51 @@
+/* host 앱이 제공하는 @font-face.
+   DDS 의 dds-tokens.css 는 family 이름(+fallback)만 정의하므로,
+   실제 웹폰트 파일은 여기(host)에서 로드한다. 파일: daiso-test/assets/fonts/. */
+
+/* ─── Pretendard (body/caption) ─── */
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Pretendard-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/Pretendard-ExtraBold.woff2') format('woff2');
+}
+
+/* ─── SUITE (display/heading) — variable ─── */
+@font-face {
+  font-family: 'SUITE';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('../fonts/SUITE-Variable.woff2') format('woff2-variations');
+}
+
+/* ─── Daiso (brand) ─── */
+@font-face {
+  font-family: 'Daiso';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Daiso.otf') format('opentype');
+}

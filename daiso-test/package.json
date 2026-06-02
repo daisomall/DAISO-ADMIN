@@ -1,0 +1,21 @@
+{
+  "name": "daiso-test",
+  "version": "0.0.0",
+  "private": true,
+  "description": "DDS 페이지 조립·검증 테스트 앱 (Nuxt2/Vue2) — @daiso/design-system 조립, 개발자 전달용 프로토타입",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@daiso/design-system": "file:../design-system",
+    "nuxt": "^2.17.3",
+    "vue": "^2.7.16"
+  },
+  "devDependencies": {
+    "sass": "^1.77.8",
+    "sass-loader": "^10.5.2"
+  }
+}
