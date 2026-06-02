@@ -1,0 +1,20 @@
+/* 전역 베이스 리셋 — host 앱(daiso-test) 책임.
+   DDS 컴포넌트는 box-sizing: border-box 전제로 작성됨
+   (명시 height = 테두리/패딩 포함 Figma 프레임 크기. 예: DaTextInput height 120 = box 전체).
+   dds-tokens.css 는 CSS 변수만 제공하므로, 박스 모델/마진 리셋은 여기서 establish 한다. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

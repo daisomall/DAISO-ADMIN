@@ -18,9 +18,10 @@ export default {
     ],
   },
 
-  // 토큰 먼저, 그 다음 host 폰트(@font-face). 둘 다 전역 주입.
+  // 토큰 → 베이스 리셋(box-sizing/margin) → host 폰트(@font-face). 전역 주입.
   css: [
     '@daiso/design-system/styles/dds-tokens.css',
+    '@/assets/css/reset.css',
     '@/assets/css/fonts.css',
   ],
 

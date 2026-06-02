@@ -38,8 +38,8 @@
 
 <script>
 // OptionScaleField — 원형 N-point 척도 선택 (페이지 전용 조립, 비-DDS)
-// Figma rating_detail_container 패턴: 원형 옵션(40px 타깃 / 32px disc) + 1px 연결 라인 + 하단 라벨.
-// 선택 = gray-800 채움 / 미선택 = gray-200 채움. v-model: value(Number index|null) / input(i).
+// Figma rating_detail_container 패턴: 원형 옵션(40px 외곽 1px 링 + 32px disc, 동색) + 1px 연결 라인 + 하단 라벨.
+// 선택 = gray-800(#161D24) 링+disc / 미선택 = stroke-basic2·gray-300(#E9EBEE) 링+disc. v-model: value(Number index|null) / input(i).
 // 옵션 개수(options.length)에 따라 라인 자동 배치. ②디자인/③사용성 평가 공통.
 export default {
   name: 'OptionScaleField',
@@ -77,9 +77,15 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 0;
+    // Figma option = 40px 외곽 1px stroke 링 + 32px 내부 disc(동색). 미선택 링 = stroke-basic2(#E9EBEE).
+    border: 1px solid var(--dds-color-stroke-basic2);
+    border-radius: var(--dds-radius-pill);
     background: none;
     cursor: pointer;
+    transition: border-color .15s;
+
+    // 선택 시 링도 gray-800 (Figma: stroke·fill 동색 #161D24)
+    &--selected { border-color: var(--dds-color-palette-gray-800); }
   }
 
   &__dot {
@@ -87,7 +93,7 @@ export default {
     width: var(--dds-spacing-32);
     height: var(--dds-spacing-32);
     border-radius: var(--dds-radius-pill);
-    background-color: var(--dds-color-palette-gray-200); // 미선택
+    background-color: var(--dds-color-palette-gray-300); // 미선택 disc (#E9EBEE = stroke-basic2 동색)
     transition: background-color .15s;
 
     .option-scale-field__option--selected & {

@@ -19,6 +19,8 @@
 
     <da-divider variant="thick" />
 
+    <!-- 평가 섹션 묶음 — Figma content frame(좌우 20px 인셋). thick divider/네비/아코디언/CTA 는 바깥 풀폭 유지. -->
+    <div class="review-write__ratings">
     <!-- 3. 별점 -->
     <rating-box question="상품에 얼마나 만족하시나요?">
       <template #badge>
@@ -80,6 +82,7 @@
 
       <da-accordion-bullet-list class="review-write__tips" :items="tips" />
     </rating-box>
+    </div>
 
     <da-divider variant="thick" />
 
@@ -193,7 +196,17 @@ export default {
     display: flex;
     flex-direction: column;
     gap: var(--dds-spacing-12);
-    padding: var(--dds-spacing-12) var(--dds-spacing-20);
+    // Figma Product frame: 상단 12 / 하단 24 (비대칭)
+    padding: var(--dds-spacing-12) var(--dds-spacing-20) var(--dds-spacing-24);
+  }
+
+  // 평가 섹션 — Figma content frame 의 좌우 20px 인셋(335폭). rating-box·thin divider 가 함께 인셋된다.
+  // (thick divider/TopNavigation/Accordion/ActionArea 는 이 래퍼 밖이라 풀폭 375 유지.)
+  &__ratings {
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--dds-spacing-20);
+    padding-right: var(--dds-spacing-20);
   }
 
   // DaReviewCard #image 슬롯 — 상품 썸네일 placeholder
