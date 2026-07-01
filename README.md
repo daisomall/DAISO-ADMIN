@@ -5,12 +5,9 @@
 - **`design-system/`** — `@daiso/design-system`. Vue 2.7 컴포넌트 라이브러리(`Da*`).
 - **`daiso-test/`** — 라이브러리를 import 해 페이지 단위로 조립·검증하는 Nuxt2 프로토타입.
 
----
-
 ## Source of Truth
 
-모든 디자인·구현 의사결정은 **[DESIGN.md](DESIGN.md)** 를 기준으로 한다. 철학·토큰·컴포넌트 규칙·QA가 여기 있다.
-디자인 원천은 **Figma**, 운영 토큰은 `design-system/src/styles/dds-tokens.css`(`--dds-*`).
+모든 디자인·구현 의사결정은 **[DESIGN.md](DESIGN.md)** 를 기준으로 한다.
 
 ## 읽는 순서
 
@@ -19,8 +16,6 @@
 3. **[.claude/skills/dds-component/SKILL.md](.claude/skills/dds-component/SKILL.md)** — 컴포넌트 생성·유지보수 절차.
 
 ## 구조
-
-단방향 의존: `Foundation Token → ui → module → layout → page`. page는 조립만.
 
 ```
 design-system/   @daiso/design-system 라이브러리
