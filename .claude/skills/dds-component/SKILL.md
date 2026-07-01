@@ -63,7 +63,8 @@ description: >-
 
 - [ ] Figma 와 일치(정렬·간격·색·타이포).
 - [ ] 토큰만 사용(raw 값 없음) · 없는 값은 미구현·확인.
-- [ ] Build/lint 통과.
+- [ ] **등록**: `src/index.js` 배럴에 추가(기존 export 패턴대로) · 해당 `playground/sections/*Section.vue`(Ui·Layout·Module) 에 데모 추가. 빠뜨리면 소비 앱 import·쇼룸 확인 불가.
+- [ ] Build 통과(`npm run build`) · lint.
 - [ ] **마지막 재확인**: 이 구현이 기존 Component·Variant 로 해결 가능하지 않았는가(신규였다면 근거가 충분한가).
 
 ## 안티패턴
